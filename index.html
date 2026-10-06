@@ -1,0 +1,3207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050b14">
+<title>FINOVA — Your Money. Made Clearer.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --bg:#050b14;
+    --bg2:#08111e;
+    --panel:rgba(11,23,38,.72);
+    --panel2:rgba(15,30,49,.86);
+    --line:rgba(255,255,255,.09);
+    --line2:rgba(53,221,255,.22);
+    --text:#f5f9ff;
+    --muted:#8d9bad;
+    --cyan:#35ddff;
+    --blue:#647cff;
+    --purple:#a56cff;
+    --green:#50e6a2;
+    --orange:#ffad68;
+    --danger:#ff6680;
+    --shadow:0 30px 100px rgba(0,0,0,.42);
+    --radius:26px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"DM Sans",sans-serif;
+    color:var(--text);
+    background:
+        radial-gradient(circle at 15% 10%,rgba(53,221,255,.08),transparent 28%),
+        radial-gradient(circle at 85% 15%,rgba(100,124,255,.09),transparent 30%),
+        linear-gradient(180deg,#050b14,#07101b 45%,#050b14);
+    overflow-x:hidden;
+}
+
+/* =========================
+   GLOBAL BACKGROUND
+========================= */
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    opacity:.28;
+    background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:linear-gradient(to bottom,black,transparent 90%);
+    z-index:-3;
+}
+
+body:after{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    border-radius:50%;
+    background:rgba(53,221,255,.045);
+    filter:blur(100px);
+    top:20%;
+    left:-250px;
+    pointer-events:none;
+    animation:ambientMove 14s ease-in-out infinite alternate;
+    z-index:-2;
+}
+
+@keyframes ambientMove{
+    from{transform:translate(0,0)}
+    to{transform:translate(120vw,250px)}
+}
+
+::selection{
+    background:rgba(53,221,255,.25);
+    color:white;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button,input,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.container{
+    width:min(1180px,calc(100% - 40px));
+    margin:auto;
+}
+
+section{
+    position:relative;
+    padding:110px 0;
+}
+
+.section-head{
+    max-width:720px;
+    margin-bottom:55px;
+}
+
+.section-label{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:var(--cyan);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:18px;
+}
+
+.section-label:before{
+    content:"";
+    width:28px;
+    height:1px;
+    background:var(--cyan);
+    box-shadow:0 0 12px var(--cyan);
+}
+
+.section-head h2{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:clamp(36px,5vw,62px);
+    line-height:1.03;
+    letter-spacing:-2px;
+}
+
+.section-head p{
+    color:var(--muted);
+    margin-top:18px;
+    font-size:17px;
+    line-height:1.7;
+}
+
+/* =========================
+   SCROLL BAR
+========================= */
+
+.scroll-progress{
+    position:fixed;
+    top:0;
+    left:0;
+    width:0%;
+    height:3px;
+    background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
+    z-index:9999;
+    box-shadow:0 0 15px rgba(53,221,255,.8);
+}
+
+/* =========================
+   LOADER
+========================= */
+
+.loader{
+    position:fixed;
+    inset:0;
+    background:#040911;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.8s ease;
+}
+
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.loader-box{
+    width:260px;
+    text-align:center;
+}
+
+.loader-logo{
+    width:62px;
+    height:62px;
+    margin:auto;
+    border:1px solid rgba(53,221,255,.5);
+    border-radius:20px;
+    display:grid;
+    place-items:center;
+    font-family:"Space Grotesk";
+    font-size:25px;
+    font-weight:700;
+    color:var(--cyan);
+    box-shadow:
+        0 0 40px rgba(53,221,255,.15),
+        inset 0 0 30px rgba(53,221,255,.05);
+    animation:loaderPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loaderPulse{
+    50%{
+        transform:scale(1.08);
+        box-shadow:0 0 60px rgba(53,221,255,.28);
+    }
+}
+
+.loader-title{
+    margin-top:20px;
+    font-family:"Space Grotesk";
+    font-weight:700;
+    letter-spacing:4px;
+}
+
+.loader-line{
+    height:2px;
+    background:rgba(255,255,255,.08);
+    margin-top:22px;
+    overflow:hidden;
+}
+
+.loader-line span{
+    display:block;
+    height:100%;
+    width:0;
+    background:linear-gradient(90deg,var(--cyan),var(--purple));
+    animation:loading 1.7s ease forwards;
+}
+
+@keyframes loading{
+    to{width:100%}
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:500;
+    padding:18px 0;
+    transition:.35s ease;
+}
+
+.nav.scrolled{
+    background:rgba(5,11,20,.72);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(255,255,255,.06);
+    padding:12px 0;
+}
+
+.nav-inner{
+    width:min(1200px,calc(100% - 32px));
+    margin:auto;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 9px 0 18px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(7,15,27,.48);
+    backdrop-filter:blur(18px);
+    border-radius:20px;
+    box-shadow:0 15px 50px rgba(0,0,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Space Grotesk";
+    font-weight:700;
+    letter-spacing:1px;
+}
+
+.logo-mark{
+    width:34px;
+    height:34px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    color:#07111c;
+    background:linear-gradient(135deg,var(--cyan),#8cecff);
+    box-shadow:0 0 25px rgba(53,221,255,.25);
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:5px;
+}
+
+.nav-links a{
+    position:relative;
+    color:#aeb8c7;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:10px;
+    transition:.25s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    color:white;
+    background:rgba(255,255,255,.05);
+}
+
+.nav-links a.active:after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:4px;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background:var(--cyan);
+    transform:translateX(-50%);
+    box-shadow:0 0 10px var(--cyan);
+}
+
+.nav-cta{
+    border:1px solid rgba(53,221,255,.3);
+    background:rgba(53,221,255,.08);
+    color:var(--cyan);
+    padding:11px 16px;
+    border-radius:12px;
+    font-size:13px;
+    font-weight:700;
+    transition:.25s ease;
+}
+
+.nav-cta:hover{
+    background:rgba(53,221,255,.15);
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(53,221,255,.12);
+}
+
+.menu-btn{
+    display:none;
+    border:0;
+    background:none;
+    color:white;
+    font-size:24px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:850px;
+    display:flex;
+    align-items:center;
+    padding-top:150px;
+    overflow:hidden;
+}
+
+.hero-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+}
+
+.hero-content{
+    position:relative;
+    z-index:5;
+}
+
+.hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border:1px solid rgba(53,221,255,.2);
+    background:rgba(53,221,255,.055);
+    border-radius:999px;
+    padding:8px 13px;
+    color:#b9effa;
+    font-size:11px;
+    letter-spacing:1.5px;
+    margin-bottom:25px;
+    animation:fadeUp .8s both;
+}
+
+.live-dot{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+    animation:blink 1.5s infinite;
+}
+
+@keyframes blink{
+    50%{opacity:.25}
+}
+
+.hero h1{
+    font-family:"Space Grotesk";
+    font-size:clamp(54px,7vw,90px);
+    letter-spacing:-5px;
+    line-height:.95;
+    max-width:700px;
+    animation:fadeUp .8s .08s both;
+}
+
+.gradient-text{
+    background:linear-gradient(110deg,#fff 5%,#7be9ff 45%,#a890ff 85%);
+    -webkit-background-clip:text;
+    color:transparent;
+    background-size:200%;
+    animation:gradientMove 5s ease infinite;
+}
+
+@keyframes gradientMove{
+    50%{background-position:100% 50%}
+}
+
+.hero-copy{
+    color:var(--muted);
+    max-width:610px;
+    font-size:18px;
+    line-height:1.7;
+    margin:28px 0;
+    animation:fadeUp .8s .16s both;
+}
+
+.hero-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    animation:fadeUp .8s .24s both;
+}
+
+.btn{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 20px;
+    color:white;
+    background:rgba(255,255,255,.04);
+    font-weight:700;
+    transition:.3s ease;
+}
+
+.btn:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(110deg,transparent,rgba(255,255,255,.12),transparent);
+    transform:translateX(-120%);
+    transition:.6s ease;
+}
+
+.btn:hover:before{
+    transform:translateX(120%);
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+    border-color:rgba(255,255,255,.18);
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--cyan),#5f9dff);
+    color:#04101a;
+    border:0;
+    box-shadow:0 15px 40px rgba(53,221,255,.18);
+}
+
+.btn-primary:hover{
+    box-shadow:0 20px 50px rgba(53,221,255,.27);
+}
+
+.hero-note{
+    margin-top:26px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    color:#6f7d90;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+/* =========================
+   HERO DASHBOARD
+========================= */
+
+.hero-visual{
+    position:relative;
+    height:590px;
+    perspective:1200px;
+}
+
+.orbit{
+    position:absolute;
+    border:1px solid rgba(53,221,255,.09);
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+.orbit.one{
+    width:650px;
+    height:650px;
+    animation:spin 22s linear infinite;
+}
+
+.orbit.two{
+    width:500px;
+    height:500px;
+    animation:spinReverse 17s linear infinite;
+}
+
+.orbit.three{
+    width:370px;
+    height:370px;
+    animation:spin 12s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+@keyframes spinReverse{
+    to{transform:translate(-50%,-50%) rotate(-360deg)}
+}
+
+.dashboard{
+    position:absolute;
+    width:min(420px,88%);
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%) rotateX(4deg) rotateY(-8deg);
+    transition:transform .15s ease-out;
+    border:1px solid rgba(255,255,255,.11);
+    background:
+        linear-gradient(145deg,rgba(18,34,53,.96),rgba(7,15,26,.96));
+    border-radius:30px;
+    padding:22px;
+    box-shadow:
+        0 50px 100px rgba(0,0,0,.55),
+        0 0 80px rgba(53,221,255,.07),
+        inset 0 1px rgba(255,255,255,.06);
+    z-index:3;
+}
+
+.dashboard:before{
+    content:"";
+    position:absolute;
+    inset:-1px;
+    border-radius:30px;
+    padding:1px;
+    background:linear-gradient(130deg,rgba(53,221,255,.35),transparent 40%,rgba(165,108,255,.2));
+    mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    mask-composite:exclude;
+    pointer-events:none;
+}
+
+.dash-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.dash-brand{
+    color:#8493a7;
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.dash-menu{
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    border-radius:9px;
+    background:rgba(255,255,255,.05);
+    color:#8291a4;
+}
+
+.balance-label{
+    color:#718096;
+    font-size:11px;
+    margin-top:28px;
+}
+
+.balance{
+    font-family:"Space Grotesk";
+    font-size:39px;
+    font-weight:600;
+    margin-top:5px;
+}
+
+.balance span{
+    color:#8291a4;
+    font-size:15px;
+}
+
+.balance-change{
+    display:inline-flex;
+    margin-top:9px;
+    padding:5px 8px;
+    border-radius:7px;
+    background:rgba(80,230,162,.08);
+    color:var(--green);
+    font-size:10px;
+}
+
+.chart{
+    height:130px;
+    display:flex;
+    align-items:end;
+    gap:7px;
+    margin-top:27px;
+    padding:0 3px 5px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.bar{
+    flex:1;
+    border-radius:6px 6px 2px 2px;
+    background:linear-gradient(to top,rgba(53,221,255,.2),rgba(53,221,255,.8));
+    transform-origin:bottom;
+    transform:scaleY(0);
+    animation:barGrow 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.bar:nth-child(1){height:34%;animation-delay:.1s}
+.bar:nth-child(2){height:48%;animation-delay:.16s}
+.bar:nth-child(3){height:39%;animation-delay:.22s}
+.bar:nth-child(4){height:64%;animation-delay:.28s}
+.bar:nth-child(5){height:54%;animation-delay:.34s}
+.bar:nth-child(6){height:78%;animation-delay:.40s}
+.bar:nth-child(7){height:69%;animation-delay:.46s}
+.bar:nth-child(8){height:88%;animation-delay:.52s}
+
+@keyframes barGrow{
+    to{transform:scaleY(1)}
+}
+
+.dash-bottom{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    margin-top:15px;
+}
+
+.dash-stat{
+    padding:13px;
+    border-radius:15px;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.05);
+}
+
+.dash-stat small{
+    display:block;
+    color:#6e7c8f;
+    font-size:9px;
+}
+
+.dash-stat strong{
+    display:block;
+    margin-top:5px;
+    font-size:16px;
+}
+
+.float-card{
+    position:absolute;
+    padding:12px 14px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:14px;
+    background:rgba(10,22,37,.8);
+    backdrop-filter:blur(15px);
+    box-shadow:0 20px 40px rgba(0,0,0,.25);
+    font-size:11px;
+    z-index:5;
+    animation:floatCard 4s ease-in-out infinite;
+}
+
+.float-card strong{
+    display:block;
+    font-size:14px;
+    margin-top:3px;
+}
+
+.float-one{
+    top:90px;
+    left:0;
+}
+
+.float-two{
+    right:0;
+    bottom:110px;
+    animation-delay:1.4s;
+}
+
+.float-three{
+    right:20px;
+    top:90px;
+    animation-delay:2.5s;
+}
+
+@keyframes floatCard{
+    50%{transform:translateY(-12px)}
+}
+
+/* =========================
+   MARQUEE
+========================= */
+
+.marquee{
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    padding:17px 0;
+    background:rgba(255,255,255,.012);
+}
+
+.marquee-track{
+    display:flex;
+    width:max-content;
+    animation:marquee 25s linear infinite;
+}
+
+.marquee span{
+    color:#536174;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2px;
+    margin:0 25px;
+}
+
+.marquee b{
+    color:var(--cyan);
+}
+
+@keyframes marquee{
+    to{transform:translateX(-50%)}
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.card{
+    position:relative;
+    overflow:hidden;
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,rgba(13,27,44,.8),rgba(7,16,28,.72));
+    border-radius:22px;
+    padding:24px;
+    transition:
+        transform .4s cubic-bezier(.2,.8,.2,1),
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.card:before{
+    content:"";
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(53,221,255,.08);
+    filter:blur(50px);
+    top:-100px;
+    right:-100px;
+    transition:.5s;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(53,221,255,.2);
+    box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+
+.card:hover:before{
+    transform:scale(1.5);
+}
+
+.feature-icon{
+    width:43px;
+    height:43px;
+    display:grid;
+    place-items:center;
+    border-radius:13px;
+    background:rgba(53,221,255,.08);
+    border:1px solid rgba(53,221,255,.12);
+    color:var(--cyan);
+    margin-bottom:22px;
+    transition:.35s ease;
+}
+
+.card:hover .feature-icon{
+    transform:rotate(-8deg) scale(1.08);
+    box-shadow:0 0 25px rgba(53,221,255,.12);
+}
+
+.card h3{
+    font-family:"Space Grotesk";
+    font-size:18px;
+}
+
+.card p{
+    color:var(--muted);
+    line-height:1.65;
+    font-size:13px;
+    margin-top:9px;
+}
+
+/* =========================
+   COMMAND CENTER
+========================= */
+
+.command{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:18px;
+}
+
+.command-panel{
+    border:1px solid var(--line);
+    border-radius:26px;
+    padding:28px;
+    background:linear-gradient(145deg,rgba(14,29,47,.8),rgba(7,15,27,.8));
+}
+
+.panel-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.panel-top h3{
+    font-family:"Space Grotesk";
+}
+
+.panel-top span{
+    font-size:11px;
+    color:#69778a;
+}
+
+.money-number{
+    font-family:"Space Grotesk";
+    font-size:42px;
+    margin-bottom:8px;
+}
+
+.green{
+    color:var(--green);
+}
+
+.progress-row{
+    margin-top:25px;
+}
+
+.progress-label{
+    display:flex;
+    justify-content:space-between;
+    color:#8996a8;
+    font-size:12px;
+    margin-bottom:9px;
+}
+
+.progress{
+    height:7px;
+    background:rgba(255,255,255,.06);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    width:0;
+    border-radius:20px;
+    background:linear-gradient(90deg,var(--cyan),var(--blue));
+    transition:width 1.5s cubic-bezier(.2,.8,.2,1);
+}
+
+.allocation{
+    display:grid;
+    gap:12px;
+}
+
+.allocation-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px;
+    border:1px solid rgba(255,255,255,.05);
+    border-radius:15px;
+    background:rgba(255,255,255,.025);
+}
+
+.alloc-left{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.alloc-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--cyan);
+    box-shadow:0 0 10px var(--cyan);
+}
+
+.allocation-item:nth-child(2) .alloc-dot{
+    background:var(--purple);
+    box-shadow:0 0 10px var(--purple);
+}
+
+.allocation-item:nth-child(3) .alloc-dot{
+    background:var(--green);
+    box-shadow:0 0 10px var(--green);
+}
+
+.allocation-item small{
+    display:block;
+    color:#6f7c8e;
+}
+
+.allocation-item strong{
+    font-size:14px;
+}
+
+/* =========================
+   JOURNEY
+========================= */
+
+.journey{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+}
+
+.journey-line{
+    position:absolute;
+    top:31px;
+    left:12%;
+    right:12%;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent);
+    opacity:.25;
+}
+
+.journey-step{
+    position:relative;
+    z-index:2;
+    text-align:center;
+}
+
+.step-number{
+    width:63px;
+    height:63px;
+    margin:auto;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:#081523;
+    border:1px solid rgba(53,221,255,.2);
+    color:var(--cyan);
+    font-family:"Space Grotesk";
+    font-weight:700;
+    box-shadow:0 0 35px rgba(53,221,255,.06);
+    transition:.4s;
+}
+
+.journey-step:hover .step-number{
+    transform:translateY(-8px) scale(1.08);
+    box-shadow:0 0 40px rgba(53,221,255,.16);
+}
+
+.journey-step h3{
+    margin-top:20px;
+    font-family:"Space Grotesk";
+}
+
+.journey-step p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
+    margin-top:8px;
+}
+
+/* =========================
+   COMMUNITY
+========================= */
+
+.community-wrap{
+    display:grid;
+    grid-template-columns:.8fr 1.2fr;
+    gap:25px;
+    align-items:stretch;
+}
+
+.community-info{
+    padding:30px 10px 30px 0;
+}
+
+.community-info h2{
+    font-family:"Space Grotesk";
+    font-size:clamp(38px,5vw,58px);
+    line-height:1;
+    letter-spacing:-2px;
+}
+
+.community-info p{
+    color:var(--muted);
+    line-height:1.7;
+    margin-top:20px;
+}
+
+.community-points{
+    display:grid;
+    gap:12px;
+    margin-top:28px;
+}
+
+.community-point{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#9ca9b9;
+    font-size:13px;
+}
+
+.community-point span{
+    color:var(--green);
+}
+
+.chat-box{
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:26px;
+    overflow:hidden;
+    background:rgba(7,16,28,.85);
+    box-shadow:var(--shadow);
+}
+
+.chat-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.chat-profile{
+    display:flex;
+    align-items:center;
+    gap:11px;
+}
+
+.chat-avatar{
+    width:38px;
+    height:38px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#06111b;
+    font-weight:800;
+}
+
+.chat-name{
+    font-weight:700;
+    font-size:13px;
+}
+
+.chat-status{
+    color:var(--green);
+    font-size:10px;
+    margin-top:2px;
+}
+
+.chat-messages{
+    height:350px;
+    padding:20px;
+    overflow-y:auto;
+    scroll-behavior:smooth;
+}
+
+.chat-messages::-webkit-scrollbar{
+    width:4px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.1);
+    border-radius:20px;
+}
+
+.chat-message{
+    max-width:78%;
+    margin-bottom:15px;
+    animation:messageIn .35s ease both;
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(8px) scale(.98);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.founder-message{
+    margin-right:auto;
+}
+
+.user-message{
+    margin-left:auto;
+    text-align:right;
+}
+
+.message-name{
+    color:#667589;
+    font-size:9px;
+    letter-spacing:1px;
+    margin-bottom:5px;
+}
+
+.message-text{
+    display:inline-block;
+    text-align:left;
+    padding:11px 13px;
+    border-radius:13px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.06);
+    color:#cbd4df;
+    font-size:13px;
+    line-height:1.55;
+}
+
+.user-message .message-text{
+    background:rgba(53,221,255,.1);
+    border-color:rgba(53,221,255,.15);
+    color:#dff9ff;
+}
+
+.chat-input{
+    padding:15px;
+    border-top:1px solid rgba(255,255,255,.07);
+    display:flex;
+    gap:9px;
+    align-items:flex-end;
+}
+
+.chat-input textarea{
+    flex:1;
+    min-height:44px;
+    max-height:140px;
+    resize:none;
+    border:1px solid rgba(255,255,255,.08);
+    outline:none;
+    border-radius:13px;
+    background:rgba(255,255,255,.035);
+    color:white;
+    padding:12px;
+    font-size:13px;
+    transition:.25s;
+}
+
+.chat-input textarea:focus{
+    border-color:rgba(53,221,255,.3);
+    box-shadow:0 0 25px rgba(53,221,255,.05);
+}
+
+.send-btn{
+    width:45px;
+    height:45px;
+    border:0;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--cyan),#7198ff);
+    color:#06111b;
+    font-weight:900;
+    transition:.25s;
+}
+
+.send-btn:hover{
+    transform:translateY(-3px) rotate(-3deg);
+    box-shadow:0 10px 25px rgba(53,221,255,.2);
+}
+
+.chat-note{
+    padding:0 18px 15px;
+    color:#536174;
+    font-size:10px;
+}
+
+/* =========================
+   ASK FINOVA
+========================= */
+
+.ask-box{
+    max-width:850px;
+    margin:auto;
+    padding:12px;
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:23px;
+    background:rgba(255,255,255,.025);
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.ask-inner{
+    display:flex;
+    gap:10px;
+    padding:8px;
+}
+
+.ask-inner input{
+    flex:1;
+    background:none;
+    border:0;
+    outline:0;
+    color:white;
+    padding:15px;
+    font-size:15px;
+}
+
+.ask-inner button{
+    border:0;
+    border-radius:14px;
+    padding:0 23px;
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#06111b;
+    font-weight:800;
+}
+
+.ask-answer{
+    display:none;
+    padding:18px;
+    margin-top:4px;
+    border-radius:16px;
+    background:rgba(53,221,255,.045);
+    border:1px solid rgba(53,221,255,.1);
+    color:#bdc9d8;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.ask-answer.show{
+    display:block;
+    animation:fadeUp .35s both;
+}
+
+/* =========================
+   INSIGHTS
+========================= */
+
+.insights{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+}
+
+.insight{
+    min-height:280px;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:25px;
+}
+
+.insight-tag{
+    color:var(--cyan);
+    font-size:10px;
+    letter-spacing:1.5px;
+    margin-bottom:auto;
+}
+
+.insight h3{
+    font-family:"Space Grotesk";
+    font-size:23px;
+    line-height:1.15;
+}
+
+.insight p{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
+    margin-top:10px;
+}
+
+/* =========================
+   COMPANY
+========================= */
+
+.company{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:center;
+}
+
+.company-visual{
+    min-height:430px;
+    border-radius:30px;
+    border:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 40%,rgba(53,221,255,.12),transparent 25%),
+        linear-gradient(145deg,#0b1929,#050b14);
+}
+
+.company-visual:before,
+.company-visual:after{
+    content:"";
+    position:absolute;
+    border:1px solid rgba(53,221,255,.12);
+    border-radius:50%;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+.company-visual:before{
+    width:300px;
+    height:300px;
+    animation:spin 18s linear infinite;
+}
+
+.company-visual:after{
+    width:170px;
+    height:170px;
+    animation:spinReverse 10s linear infinite;
+}
+
+.company-core{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:27px;
+    display:grid;
+    place-items:center;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    background:linear-gradient(135deg,var(--cyan),var(--blue));
+    color:#06111b;
+    font-family:"Space Grotesk";
+    font-size:25px;
+    font-weight:800;
+    box-shadow:0 0 80px rgba(53,221,255,.25);
+    z-index:3;
+}
+
+.company-copy h2{
+    font-family:"Space Grotesk";
+    font-size:clamp(38px,5vw,60px);
+    line-height:1.02;
+    letter-spacing:-2px;
+}
+
+.company-copy p{
+    color:var(--muted);
+    line-height:1.8;
+    margin-top:20px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    overflow:hidden;
+}
+
+.stat{
+    padding:35px 20px;
+    background:#07111e;
+    text-align:center;
+}
+
+.stat-number{
+    font-family:"Space Grotesk";
+    font-size:39px;
+    font-weight:700;
+}
+
+.stat-label{
+    color:#718095;
+    font-size:11px;
+    margin-top:7px;
+}
+
+/* =========================
+   FAQ
+========================= */
+
+.faq{
+    max-width:850px;
+    margin:auto;
+}
+
+.faq-item{
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.faq-question{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 0;
+    background:none;
+    border:0;
+    color:white;
+    text-align:left;
+    font-family:"Space Grotesk";
+    font-size:16px;
+}
+
+.faq-icon{
+    color:var(--cyan);
+    font-size:22px;
+    transition:.3s;
+}
+
+.faq-answer{
+    max-height:0;
+    overflow:hidden;
+    color:var(--muted);
+    line-height:1.7;
+    font-size:13px;
+    transition:max-height .4s ease,padding .4s ease;
+}
+
+.faq-item.open .faq-answer{
+    max-height:200px;
+    padding-bottom:20px;
+}
+
+.faq-item.open .faq-icon{
+    transform:rotate(45deg);
+}
+
+/* =========================
+   CTA
+========================= */
+
+.final-cta{
+    text-align:center;
+    padding:140px 20px;
+    overflow:hidden;
+}
+
+.final-cta:before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:300px;
+    border-radius:50%;
+    background:rgba(53,221,255,.08);
+    filter:blur(100px);
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+.final-cta h2{
+    position:relative;
+    font-family:"Space Grotesk";
+    font-size:clamp(45px,7vw,80px);
+    letter-spacing:-4px;
+    line-height:1;
+}
+
+.final-cta p{
+    position:relative;
+    color:var(--muted);
+    margin:20px auto 28px;
+    max-width:570px;
+    line-height:1.7;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    border-top:1px solid rgba(255,255,255,.07);
+    padding:30px 0;
+}
+
+.footer-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    color:#667487;
+    font-size:11px;
+}
+
+.footer-links{
+    display:flex;
+    gap:20px;
+}
+
+.footer-links a:hover{
+    color:white;
+}
+
+/* =========================
+   BACK TO TOP
+========================= */
+
+.top-btn{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    width:43px;
+    height:43px;
+    border-radius:13px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(8,17,30,.75);
+    backdrop-filter:blur(15px);
+    color:var(--cyan);
+    z-index:300;
+    opacity:0;
+    transform:translateY(20px);
+    pointer-events:none;
+    transition:.3s;
+}
+
+.top-btn.show{
+    opacity:1;
+    transform:none;
+    pointer-events:auto;
+}
+
+.top-btn:hover{
+    transform:translateY(-4px);
+}
+
+/* =========================
+   REVEAL ANIMATION
+========================= */
+
+.reveal{
+    opacity:0;
+    transform:translateY(35px);
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.reveal.visible{
+    opacity:1;
+    transform:none;
+}
+
+@keyframes fadeUp{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .nav-links{
+        position:absolute;
+        top:72px;
+        left:0;
+        right:0;
+        display:none;
+        flex-direction:column;
+        align-items:stretch;
+        padding:12px;
+        background:rgba(5,12,22,.96);
+        border:1px solid rgba(255,255,255,.08);
+        border-radius:18px;
+        backdrop-filter:blur(20px);
+    }
+
+    .nav-links.open{
+        display:flex;
+        animation:fadeUp .25s both;
+    }
+
+    .nav-links a{
+        padding:13px;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+
+    .nav-cta{
+        display:none;
+    }
+
+    .hero-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding-top:140px;
+    }
+
+    .hero-visual{
+        height:530px;
+    }
+
+    .command,
+    .company,
+    .community-wrap{
+        grid-template-columns:1fr;
+    }
+
+    .cards{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .insights{
+        grid-template-columns:1fr;
+    }
+
+    .journey{
+        grid-template-columns:repeat(2,1fr);
+        gap:35px;
+    }
+
+    .journey-line{
+        display:none;
+    }
+}
+
+@media(max-width:650px){
+
+    .container{
+        width:min(100% - 28px,1180px);
+    }
+
+    section{
+        padding:75px 0;
+    }
+
+    .hero{
+        min-height:auto;
+        padding-top:125px;
+    }
+
+    .hero h1{
+        font-size:52px;
+        letter-spacing:-3px;
+    }
+
+    .hero-copy{
+        font-size:15px;
+    }
+
+    .hero-visual{
+        height:460px;
+    }
+
+    .orbit.one{
+        width:450px;
+        height:450px;
+    }
+
+    .orbit.two{
+        width:360px;
+        height:360px;
+    }
+
+    .orbit.three{
+        width:280px;
+        height:280px;
+    }
+
+    .dashboard{
+        width:92%;
+        padding:17px;
+    }
+
+    .float-card{
+        display:none;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .journey{
+        grid-template-columns:1fr;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .stat-number{
+        font-size:30px;
+    }
+
+    .ask-inner{
+        flex-direction:column;
+    }
+
+    .ask-inner button{
+        height:48px;
+    }
+
+    .company-visual{
+        min-height:340px;
+    }
+
+    .footer-inner{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .footer-links{
+        gap:13px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *:before,
+    *:after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- LOADER -->
+<div class="loader" id="loader">
+    <div class="loader-box">
+        <div class="loader-logo">F</div>
+        <div class="loader-title">FINOVA</div>
+        <div class="loader-line"><span></span></div>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+    <div class="nav-inner">
+
+        <a href="#home" class="logo">
+            <span class="logo-mark">F</span>
+            FINOVA
+        </a>
+
+        <div class="nav-links" id="navLinks">
+            <a href="#features">Features</a>
+            <a href="#experience">Experience</a>
+            <a href="#community">Community</a>
+            <a href="#ask">Ask FINOVA</a>
+            <a href="#company">Company</a>
+            <a href="#faq">FAQ</a>
+        </div>
+
+        <a href="#community" class="nav-cta">Join Chat</a>
+
+        <button class="menu-btn" id="menuBtn">☰</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="container hero-grid">
+
+        <div class="hero-content">
+
+            <div class="hero-badge">
+                <span class="live-dot"></span>
+                SMART FINANCE · BETTER DECISIONS
+            </div>
+
+            <h1>
+                Your money.<br>
+                <span class="gradient-text">Made clearer.</span>
+            </h1>
+
+            <p class="hero-copy">
+                FINOVA helps you track, understand and plan your money
+                with a clearer view of your financial life.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#ask" class="btn btn-primary">Ask FINOVA →</a>
+                <a href="#community" class="btn">Enter Community</a>
+            </div>
+
+            <div class="hero-note">
+                <span>TRACK</span>
+                <span>•</span>
+                <span>UNDERSTAND</span>
+                <span>•</span>
+                <span>PLAN</span>
+                <span>•</span>
+                <span>SAVE</span>
+                <span>•</span>
+                <span>GROW</span>
+            </div>
+
+        </div>
+
+        <div class="hero-visual" id="heroVisual">
+
+            <div class="orbit one"></div>
+            <div class="orbit two"></div>
+            <div class="orbit three"></div>
+
+            <div class="float-card float-one">
+                SAVINGS
+                <strong>+18.4%</strong>
+            </div>
+
+            <div class="float-card float-two">
+                MONTHLY FLOW
+                <strong>₹42,850</strong>
+            </div>
+
+            <div class="float-card float-three">
+                GOAL
+                <strong>74%</strong>
+            </div>
+
+            <div class="dashboard" id="dashboard">
+
+                <div class="dash-top">
+                    <div class="dash-brand">FINOVA DASHBOARD</div>
+                    <div class="dash-menu">•••</div>
+                </div>
+
+                <div class="balance-label">TOTAL BALANCE</div>
+
+                <div class="balance">
+                    ₹<span class="counter" data-target="84520">0</span>
+                </div>
+
+                <div class="balance-change">↑ 12.8% this month</div>
+
+                <div class="chart">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+
+                <div class="dash-bottom">
+                    <div class="dash-stat">
+                        <small>SAVINGS</small>
+                        <strong>₹28,400</strong>
+                    </div>
+
+                    <div class="dash-stat">
+                        <small>EXPENSES</small>
+                        <strong>₹14,280</strong>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+    <div class="marquee-track">
+        <span><b>FINOVA</b> SMART MONEY</span>
+        <span>TRACK</span>
+        <span>UNDERSTAND</span>
+        <span>PLAN</span>
+        <span>SAVE</span>
+        <span>GROW</span>
+        <span><b>FINOVA</b> SMART MONEY</span>
+        <span>TRACK</span>
+        <span>UNDERSTAND</span>
+        <span>PLAN</span>
+        <span>SAVE</span>
+        <span>GROW</span>
+    </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features">
+    <div class="container">
+
+        <div class="section-head reveal">
+            <div class="section-label">FINOVA FEATURES</div>
+            <h2>Everything you need to understand your money.</h2>
+            <p>
+                A simple financial experience designed to make everyday
+                money decisions easier to understand.
+            </p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">◈</div>
+                <h3>Smart Tracking</h3>
+                <p>Keep a clearer view of where your money goes.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">◫</div>
+                <h3>Budget Control</h3>
+                <p>Build practical spending limits around your goals.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">◎</div>
+                <h3>Savings Goals</h3>
+                <p>Turn financial goals into visible milestones.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">◉</div>
+                <h3>Multiple Wallets</h3>
+                <p>Keep different sources and purposes organised.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">↻</div>
+                <h3>Recurring Payments</h3>
+                <p>Understand subscriptions and recurring expenses.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">▣</div>
+                <h3>Receipt Scanner</h3>
+                <p>Make expense recording faster and easier.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">⌁</div>
+                <h3>Analytics</h3>
+                <p>See patterns instead of looking at random numbers.</p>
+            </div>
+
+            <div class="card reveal tilt">
+                <div class="feature-icon">✦</div>
+                <h3>Financial Insights</h3>
+                <p>Turn financial information into useful decisions.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- COMMAND CENTER -->
+<section id="experience">
+    <div class="container">
+
+        <div class="section-head reveal">
+            <div class="section-label">COMMAND CENTER</div>
+            <h2>Your financial life at a glance.</h2>
+            <p>
+                Designed to make important numbers easier to see,
+                understand and act on.
+            </p>
+        </div>
+
+        <div class="command">
+
+            <div class="command-panel reveal">
+
+                <div class="panel-top">
+                    <h3>Monthly Overview</h3>
+                    <span>THIS MONTH</span>
+                </div>
+
+                <div class="money-number">₹84,520</div>
+
+                <div class="green">↑ 12.8% compared with last month</div>
+
+                <div class="progress-row">
+                    <div class="progress-label">
+                        <span>Savings progress</span>
+                        <span>74%</span>
+                    </div>
+                    <div class="progress">
+                        <span data-width="74%"></span>
+                    </div>
+                </div>
+
+                <div class="progress-row">
+                    <div class="progress-label">
+                        <span>Budget used</span>
+                        <span>58%</span>
+                    </div>
+                    <div class="progress">
+                        <span data-width="58%"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="command-panel reveal">
+
+                <div class="panel-top">
+                    <h3>Allocation</h3>
+                    <span>OVERVIEW</span>
+                </div>
+
+                <div class="allocation">
+
+                    <div class="allocation-item">
+                        <div class="alloc-left">
+                            <span class="alloc-dot"></span>
+                            <div>
+                                <strong>Essentials</strong>
+                                <small>Monthly needs</small>
+                            </div>
+                        </div>
+                        <strong>45%</strong>
+                    </div>
+
+                    <div class="allocation-item">
+                        <div class="alloc-left">
+                            <span class="alloc-dot"></span>
+                            <div>
+                                <strong>Goals</strong>
+                                <small>Future plans</small>
+                            </div>
+                        </div>
+                        <strong>30%</strong>
+                    </div>
+
+                    <div class="allocation-item">
+                        <div class="alloc-left">
+                            <span class="alloc-dot"></span>
+                            <div>
+                                <strong>Flexible</strong>
+                                <small>Personal spending</small>
+                            </div>
+                        </div>
+                        <strong>25%</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- MONEY JOURNEY -->
+<section>
+    <div class="container">
+
+        <div class="section-head reveal">
+            <div class="section-label">THE MONEY JOURNEY</div>
+            <h2>From confusion to clarity.</h2>
+        </div>
+
+        <div class="journey">
+
+            <div class="journey-line"></div>
+
+            <div class="journey-step reveal">
+                <div class="step-number">01</div>
+                <h3>Track</h3>
+                <p>Know where your money is going.</p>
+            </div>
+
+            <div class="journey-step reveal">
+                <div class="step-number">02</div>
+                <h3>Understand</h3>
+                <p>Recognise your financial patterns.</p>
+            </div>
+
+            <div class="journey-step reveal">
+                <div class="step-number">03</div>
+                <h3>Plan</h3>
+                <p>Create realistic goals and budgets.</p>
+            </div>
+
+            <div class="journey-step reveal">
+                <div class="step-number">04</div>
+                <h3>Grow</h3>
+                <p>Make better financial decisions over time.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community">
+    <div class="container">
+
+        <div class="community-wrap">
+
+            <div class="community-info reveal">
+
+                <div class="section-label">COMMUNITY</div>
+
+                <h2>Talk. Ask.<br><span class="gradient-text">Get heard.</span></h2>
+
+                <p>
+                    Have a financial question, idea or problem?
+                    Send a message to FINOVA. The conversation stays
+                    simple and human.
+                </p>
+
+                <div class="community-points">
+                    <div class="community-point">
+                        <span>✓</span> Ask your own question
+                    </div>
+                    <div class="community-point">
+                        <span>✓</span> No fake users
+                    </div>
+                    <div class="community-point">
+                        <span>✓</span> No fake AI replies
+                    </div>
+                    <div class="community-point">
+                        <span>✓</span> Message history saved locally
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="chat-box reveal">
+
+                <div class="chat-head">
+
+                    <div class="chat-profile">
+                        <div class="chat-avatar">F</div>
+
+                        <div>
+                            <div class="chat-name">FINOVA Founder</div>
+                            <div class="chat-status">● Message anytime</div>
+                        </div>
+                    </div>
+
+                    <span style="color:#566478;font-size:11px">FINOVA</span>
+
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+
+                    <div class="chat-message founder-message">
+                        <div class="message-name">FINOVA</div>
+                        <div class="message-text">
+                            Hey 👋 Tell me what's on your mind.
+                            You can write your question or problem here.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="chat-input">
+
+                    <textarea
+                        id="chatInput"
+                        placeholder="Write your message..."
+                        rows="1"></textarea>
+
+                    <button class="send-btn" id="sendChat">↑</button>
+
+                </div>
+
+                <div class="chat-note">
+                    Your messages are saved in this browser. This version
+                    does not use a backend.
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ASK FINOVA -->
+<section id="ask">
+    <div class="container">
+
+        <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+            <div class="section-label" style="justify-content:center">ASK FINOVA</div>
+            <h2>Ask. Explore. Understand.</h2>
+            <p>
+                Type a simple finance question and explore a quick
+                FINOVA explanation.
+            </p>
+        </div>
+
+        <div class="ask-box reveal">
+
+            <div class="ask-inner">
+                <input
+                    id="askInput"
+                    type="text"
+                    placeholder="Try: How can I save more money?"
+                >
+
+                <button id="askButton">Ask FINOVA</button>
+            </div>
+
+            <div class="ask-answer" id="askAnswer"></div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- INSIGHTS -->
+<section>
+    <div class="container">
+
+        <div class="section-head reveal">
+            <div class="section-label">INSIGHTS</div>
+            <h2>Small ideas can change big financial decisions.</h2>
+        </div>
+
+        <div class="insights">
+
+            <article class="card insight reveal tilt">
+                <div class="insight-tag">01 · MONEY</div>
+                <div>
+                    <h3>Know where your money disappears.</h3>
+                    <p>
+                        Awareness is often the first step toward better
+                        financial behaviour.
+                    </p>
+                </div>
+            </article>
+
+            <article class="card insight reveal tilt">
+                <div class="insight-tag">02 · PLANNING</div>
+                <div>
+                    <h3>Give every rupee a purpose.</h3>
+                    <p>
+                        A simple plan can make spending and saving
+                        decisions much clearer.
+                    </p>
+                </div>
+            </article>
+
+            <article class="card insight reveal tilt">
+                <div class="insight-tag">03 · GROWTH</div>
+                <div>
+                    <h3>Think beyond today's balance.</h3>
+                    <p>
+                        Financial progress is about consistency over
+                        time, not one perfect month.
+                    </p>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+<!-- COMPANY -->
+<section id="company">
+    <div class="container company">
+
+        <div class="company-visual reveal">
+            <div class="company-core">F</div>
+        </div>
+
+        <div class="company-copy reveal">
+
+            <div class="section-label">WHY FINOVA</div>
+
+            <h2>Finance shouldn't feel complicated.</h2>
+
+            <p>
+                FINOVA exists to make financial information easier to
+                understand and financial decisions easier to approach.
+            </p>
+
+            <p>
+                No unnecessary complexity. No intimidating financial
+                language. Just a clearer way to think about money.
+            </p>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- STATS -->
+<section>
+    <div class="container">
+
+        <div class="stats reveal">
+
+            <div class="stat">
+                <div class="stat-number">8+</div>
+                <div class="stat-label">CORE FEATURES</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number">4</div>
+                <div class="stat-label">MONEY STAGES</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">ACCESS</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-number">1</div>
+                <div class="stat-label">CLEARER MISSION</div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+    <div class="container">
+
+        <div class="section-head reveal" style="margin-left:auto;margin-right:auto;text-align:center">
+            <div class="section-label" style="justify-content:center">FAQ</div>
+            <h2>Questions, answered.</h2>
+        </div>
+
+        <div class="faq reveal">
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is FINOVA?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    FINOVA is a financial platform concept focused on
+                    making personal finance easier to understand and manage.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I ask FINOVA a question?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. Use the Ask FINOVA section to enter a question
+                    and explore a quick response.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I message the founder?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes. You can leave your message in the community chat.
+                    This current single-file version stores messages locally
+                    in the visitor's browser and does not provide shared
+                    cross-device messaging.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Does FINOVA use fake community users?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    No. The community does not simulate fake users or fake
+                    conversations.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is FINOVA complicated?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    The goal is the opposite: make financial concepts and
+                    decisions easier to understand.
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+
+    <div class="container reveal">
+
+        <div class="section-label" style="justify-content:center">
+            YOUR NEXT FINANCIAL DECISION
+        </div>
+
+        <h2>
+            Make it<br>
+            <span class="gradient-text">clearer.</span>
+        </h2>
+
+        <p>
+            Start understanding your money from a different perspective
+            with FINOVA.
+        </p>
+
+        <a href="#ask" class="btn btn-primary">Explore FINOVA →</a>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+
+    <div class="container footer-inner">
+
+        <div>
+            © <span id="year"></span> FINOVA. All rights reserved.
+        </div>
+
+        <div class="footer-links">
+            <a href="#features">Features</a>
+            <a href="#community">Community</a>
+            <a href="#ask">Ask FINOVA</a>
+            <a href="#faq">FAQ</a>
+        </div>
+
+    </div>
+
+</footer>
+
+<button class="top-btn" id="topBtn">↑</button>
+
+<script>
+
+/* =========================
+   LOADER
+========================= */
+
+window.addEventListener("load",function(){
+
+    setTimeout(function(){
+
+        document.getElementById("loader")
+            .classList.add("hide");
+
+    },900);
+
+});
+
+
+/* =========================
+   YEAR
+========================= */
+
+document.getElementById("year").textContent =
+    new Date().getFullYear();
+
+
+/* =========================
+   NAV SCROLL
+========================= */
+
+const nav = document.getElementById("nav");
+
+window.addEventListener("scroll",function(){
+
+    nav.classList.toggle(
+        "scrolled",
+        window.scrollY > 40
+    );
+
+});
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click",function(){
+
+    navLinks.classList.toggle("open");
+
+    menuBtn.textContent =
+        navLinks.classList.contains("open") ? "×" : "☰";
+
+});
+
+navLinks.querySelectorAll("a").forEach(function(link){
+
+    link.addEventListener("click",function(){
+
+        navLinks.classList.remove("open");
+        menuBtn.textContent="☰";
+
+    });
+
+});
+
+
+/* =========================
+   SCROLL PROGRESS
+========================= */
+
+const scrollProgress =
+    document.getElementById("scrollProgress");
+
+window.addEventListener("scroll",function(){
+
+    const scrollTop = window.scrollY;
+
+    const height =
+        document.documentElement.scrollHeight -
+        window.innerHeight;
+
+    const percentage =
+        height > 0 ? (scrollTop / height) * 100 : 0;
+
+    scrollProgress.style.width =
+        percentage + "%";
+
+});
+
+
+/* =========================
+   REVEAL
+========================= */
+
+const revealObserver =
+    new IntersectionObserver(
+        function(entries){
+
+            entries.forEach(function(entry){
+
+                if(entry.isIntersecting){
+
+                    entry.target.classList.add("visible");
+
+                    revealObserver.unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.12
+        }
+    );
+
+document.querySelectorAll(".reveal")
+    .forEach(function(el){
+
+        revealObserver.observe(el);
+
+    });
+
+
+/* =========================
+   ACTIVE NAV
+========================= */
+
+const sections =
+    document.querySelectorAll("section[id]");
+
+const navAnchors =
+    document.querySelectorAll(".nav-links a");
+
+const sectionObserver =
+    new IntersectionObserver(
+        function(entries){
+
+            entries.forEach(function(entry){
+
+                if(entry.isIntersecting){
+
+                    navAnchors.forEach(function(a){
+
+                        a.classList.remove("active");
+
+                        if(
+                            a.getAttribute("href") ===
+                            "#" + entry.target.id
+                        ){
+                            a.classList.add("active");
+                        }
+
+                    });
+
+                }
+
+            });
+
+        },
+        {
+            rootMargin:"-35% 0px -55% 0px"
+        }
+    );
+
+sections.forEach(function(section){
+    sectionObserver.observe(section);
+});
+
+
+/* =========================
+   HERO DASHBOARD TILT
+========================= */
+
+const heroVisual =
+    document.getElementById("heroVisual");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+if(window.matchMedia("(pointer:fine)").matches){
+
+    heroVisual.addEventListener("mousemove",function(e){
+
+        const rect =
+            heroVisual.getBoundingClientRect();
+
+        const x =
+            (e.clientX - rect.left) / rect.width - .5;
+
+        const y =
+            (e.clientY - rect.top) / rect.height - .5;
+
+        dashboard.style.transform =
+            `translate(-50%,-50%)
+             rotateX(${4 - y * 8}deg)
+             rotateY(${-8 + x * 12}deg)
+             translateZ(8px)`;
+
+    });
+
+    heroVisual.addEventListener("mouseleave",function(){
+
+        dashboard.style.transform =
+            "translate(-50%,-50%) rotateX(4deg) rotateY(-8deg)";
+
+    });
+
+}
+
+
+/* =========================
+   CARD TILT
+========================= */
+
+if(window.matchMedia("(pointer:fine)").matches){
+
+    document.querySelectorAll(".tilt")
+        .forEach(function(card){
+
+            card.addEventListener("mousemove",function(e){
+
+                const rect =
+                    card.getBoundingClientRect();
+
+                const x =
+                    (e.clientX - rect.left) / rect.width - .5;
+
+                const y =
+                    (e.clientY - rect.top) / rect.height - .5;
+
+                card.style.transform =
+                    `perspective(800px)
+                     rotateX(${-y * 5}deg)
+                     rotateY(${x * 5}deg)
+                     translateY(-8px)`;
+
+            });
+
+            card.addEventListener("mouseleave",function(){
+
+                card.style.transform="";
+
+            });
+
+        });
+
+}
+
+
+/* =========================
+   PROGRESS BARS
+========================= */
+
+const progressObserver =
+    new IntersectionObserver(
+        function(entries){
+
+            entries.forEach(function(entry){
+
+                if(entry.isIntersecting){
+
+                    entry.target
+                        .querySelectorAll(".progress span")
+                        .forEach(function(bar){
+
+                            bar.style.width =
+                                bar.dataset.width;
+
+                        });
+
+                    progressObserver.unobserve(entry.target);
+
+                }
+
+            });
+
+        },
+        {
+            threshold:.3
+        }
+    );
+
+document.querySelectorAll(".command-panel")
+    .forEach(function(panel){
+
+        progressObserver.observe(panel);
+
+    });
+
+
+/* =========================
+   CHAT
+========================= */
+
+const chatInput =
+    document.getElementById("chatInput");
+
+const sendChat =
+    document.getElementById("sendChat");
+
+const chatMessages =
+    document.getElementById("chatMessages");
+
+let chatHistory=[];
+
+try{
+
+    chatHistory =
+        JSON.parse(
+            localStorage.getItem("finova_chat_history")
+        ) || [];
+
+}catch(error){
+
+    chatHistory=[];
+
+}
+
+
+function createChatMessage(text,type,time){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "chat-message " +
+        (
+            type === "user"
+            ? "user-message"
+            : "founder-message"
+        );
+
+    const name =
+        document.createElement("div");
+
+    name.className="message-name";
+
+    name.textContent =
+        type === "user"
+        ? "YOU"
+        : "FINOVA FOUNDER";
+
+    const content =
+        document.createElement("div");
+
+    content.className="message-text";
+
+    content.textContent=text;
+
+    message.appendChild(name);
+    message.appendChild(content);
+
+    if(time){
+
+        const timestamp =
+            document.createElement("div");
+
+        timestamp.style.color="#536174";
+        timestamp.style.fontSize="8px";
+        timestamp.style.marginTop="4px";
+
+        timestamp.textContent =
+            time;
+
+        message.appendChild(timestamp);
+
+    }
+
+    chatMessages.appendChild(message);
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+}
+
+
+chatHistory.forEach(function(message){
+
+    createChatMessage(
+        message.text,
+        message.type,
+        message.time
+    );
+
+});
+
+
+function sendMessage(){
+
+    const text =
+        chatInput.value.trim();
+
+    if(!text) return;
+
+    const now =
+        new Date();
+
+    const time =
+        now.toLocaleTimeString(
+            [],
+            {
+                hour:"2-digit",
+                minute:"2-digit"
+            }
+        );
+
+    createChatMessage(
+        text,
+        "user",
+        time
+    );
+
+    chatHistory.push({
+
+        text:text,
+        type:"user",
+        time:time
+
+    });
+
+    try{
+
+        localStorage.setItem(
+            "finova_chat_history",
+            JSON.stringify(chatHistory)
+        );
+
+    }catch(error){}
+
+    chatInput.value="";
+    chatInput.style.height="auto";
+
+}
+
+
+sendChat.addEventListener(
+    "click",
+    sendMessage
+);
+
+
+chatInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key==="Enter" &&
+            !event.shiftKey
+        ){
+
+            event.preventDefault();
+
+            sendMessage();
+
+        }
+
+    }
+);
+
+
+chatInput.addEventListener(
+    "input",
+    function(){
+
+        this.style.height="auto";
+
+        this.style.height =
+            Math.min(
+                this.scrollHeight,
+                140
+            ) + "px";
+
+    }
+);
+
+
+/* =========================
+   ASK FINOVA
+========================= */
+
+const askInput =
+    document.getElementById("askInput");
+
+const askButton =
+    document.getElementById("askButton");
+
+const askAnswer =
+    document.getElementById("askAnswer");
+
+
+function answerQuestion(){
+
+    const question =
+        askInput.value.trim().toLowerCase();
+
+    if(!question){
+
+        askAnswer.textContent =
+            "Type a question first — for example, “How can I save more money?”";
+
+        askAnswer.classList.add("show");
+
+        return;
+
+    }
+
+    let answer =
+        "A good financial decision starts with understanding your current situation. Track your income, expenses, savings and goals before deciding what to change.";
+
+    if(
+        question.includes("save") ||
+        question.includes("saving")
+    ){
+
+        answer =
+            "Start by making saving automatic. First understand your essential expenses, then choose a realistic amount to save consistently rather than trying to save an unrealistic amount once.";
+
+    }else if(
+        question.includes("budget") ||
+        question.includes("spend")
+    ){
+
+        answer =
+            "A useful budget starts with your actual spending. Separate essentials, goals and flexible spending, then review the pattern regularly instead of treating your budget as a one-time calculation.";
+
+    }else if(
+        question.includes("invest") ||
+        question.includes("investment")
+    ){
+
+        answer =
+            "Before investing, understand your emergency savings, time horizon, risk tolerance and financial goals. Investment decisions should come after the basics are under control.";
+
+    }else if(
+        question.includes("debt") ||
+        question.includes("loan")
+    ){
+
+        answer =
+            "Start by understanding the interest rate, repayment schedule and total cost of the debt. High-cost debt generally deserves attention before taking on unnecessary new obligations.";
+
+    }else if(
+        question.includes("money") ||
+        question.includes("finance")
+    ){
+
+        answer =
+            "Think about money in four stages: Track what happens, understand the pattern, plan what you want, and consistently work toward the goal.";
+
+    }
+
+    askAnswer.textContent=answer;
+
+    askAnswer.classList.add("show");
+
+}
+
+
+askButton.addEventListener(
+    "click",
+    answerQuestion
+);
+
+
+askInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key==="Enter"){
+
+            event.preventDefault();
+
+            answerQuestion();
+
+        }
+
+    }
+);
+
+
+/* =========================
+   FAQ
+========================= */
+
+document.querySelectorAll(".faq-question")
+    .forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(){
+
+                const item =
+                    button.parentElement;
+
+                document
+                    .querySelectorAll(".faq-item")
+                    .forEach(function(other){
+
+                        if(other !== item){
+
+                            other.classList.remove("open");
+
+                        }
+
+                    });
+
+                item.classList.toggle("open");
+
+            }
+        );
+
+    });
+
+
+/* =========================
+   BACK TO TOP
+========================= */
+
+const topBtn =
+    document.getElementById("topBtn");
+
+window.addEventListener(
+    "scroll",
+    function(){
+
+        topBtn.classList.toggle(
+            "show",
+            window.scrollY > 700
+        );
+
+    }
+);
+
+
+topBtn.addEventListener(
+    "click",
+    function(){
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    }
+);
+
+
+/* =========================
+   BUTTON RIPPLE
+========================= */
+
+document.querySelectorAll(".btn")
+    .forEach(function(button){
+
+        button.addEventListener(
+            "click",
+            function(e){
+
+                const ripple =
+                    document.createElement("span");
+
+                ripple.style.position="absolute";
+                ripple.style.width="20px";
+                ripple.style.height="20px";
+                ripple.style.borderRadius="50%";
+                ripple.style.background="rgba(255,255,255,.25)";
+                ripple.style.pointerEvents="none";
+                ripple.style.transform="translate(-50%,-50%) scale(0)";
+                ripple.style.left=
+                    (e.clientX -
+                    button.getBoundingClientRect().left) + "px";
+                ripple.style.top=
+                    (e.clientY -
+                    button.getBoundingClientRect().top) + "px";
+
+                button.appendChild(ripple);
+
+                ripple.animate(
+                    [
+                        {
+                            transform:
+                            "translate(-50%,-50%) scale(0)",
+                            opacity:1
+                        },
+                        {
+                            transform:
+                            "translate(-50%,-50%) scale(12)",
+                            opacity:0
+                        }
+                    ],
+                    {
+                        duration:600,
+                        easing:"ease-out"
+                    }
+                ).onfinish=function(){
+
+                    ripple.remove();
+
+                };
+
+            }
+        );
+
+    });
+
+</script>
+
+</body>
+</html>
